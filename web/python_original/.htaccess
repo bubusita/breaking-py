@@ -1,0 +1,62 @@
+# =============================================================================
+#  python_original/.htaccess  —  PROTECCIONES DE LA CARPETA DEL CÓDIGO ORIGINAL
+# =============================================================================
+#
+#  Publicar código fuente en internet es una decisión deliberada, y acá está
+#  bien tomada: son archivos de ejemplo, sin contraseñas ni datos de nadie.
+#  La regla de oro es esa: se puede mostrar el código que NO tiene secretos.
+#  Nunca subas a un lugar público un archivo con claves, tokens o datos de
+#  conexión a una base de datos.
+#
+#  ── POR QUÉ ESTE ARCHIVO ES TAN CORTO ───────────────────────────────────
+#
+#  Una versión anterior tenía más reglas y el servidor respondía
+#  "Internal Server Error" (error 500). Ese error significa: "una línea de tu
+#  .htaccess no me gustó y me niego a atender". No dice cuál, y ese silencio es
+#  a propósito: un mensaje detallado le daría pistas a un atacante sobre cómo
+#  está configurado el servidor.
+#
+#  La causa casi siempre es la misma: el hosting decide CUÁNTO te deja cambiar
+#  desde un .htaccess, con una opción suya llamada AllowOverride. Si escribís
+#  una directiva que no te habilitaron, el servidor tira 500. Y como cada
+#  hosting habilita cosas distintas, la regla práctica es escribir el .htaccess
+#  más chico posible: sólo lo que de verdad hace falta.
+#
+#  Las dos líneas que se sacaron por conflictivas fueron:
+#
+#    · Options -ExecCGI
+#         Muchos hostings compartidos permiten cambiar sólo algunas Options
+#         (típicamente Indexes) y rechazan el resto. Igual no hacía falta:
+#         el AddType de abajo ya resuelve el problema.
+#
+#    · <FilesMatch "^(?!...)">   ← una expresión con "negación anticipada"
+#         No todos los servidores usan el mismo motor de expresiones
+#         regulares. LiteSpeed, por ejemplo (lo usan muchos hostings con
+#         cPanel), no siempre acepta el (?!...). Se reemplazó por una lista
+#         simple de extensiones, que entiende cualquiera.
+# =============================================================================
+
+# Si alguien entra a la carpeta sin pedir un archivo, se le muestra el visor.
+DirectoryIndex index.php
+
+# Que los acentos de los comentarios del código se vean bien.
+AddDefaultCharset UTF-8
+
+# ── Que los .py se muestren como TEXTO y nunca se ejecuten ─────────────────
+# Si un servidor tuviera Python activado como CGI, al pedirle un .py podría
+# intentar ejecutarlo en vez de mostrarlo. Estas dos líneas lo evitan: se le
+# saca cualquier "manejador" al .py y se lo declara texto plano.
+<IfModule mod_mime.c>
+    RemoveHandler .py
+    AddType text/plain .py
+</IfModule>
+
+# ── Que no se puedan bajar archivos que no queríamos publicar ──────────────
+# Acá van sólo los tres .py del proyecto y el index.php que los muestra. Si
+# algún día aparece en esta carpeta una copia de respaldo, un log o un archivo
+# de configuración, queda bloqueado por su extensión.
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(pyc|pyo|bak|old|orig|save|swp|log|sql|ini|env|json|zip|tar|gz)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>

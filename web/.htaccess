@@ -1,0 +1,31 @@
+# =============================================================================
+#  .htaccess  —  CONFIGURACIÓN DEL SERVIDOR APACHE
+# =============================================================================
+#
+#  Este archivo sólo lo lee el servidor Apache (el más común en los hostings
+#  baratos y en XAMPP). Si tu servidor es Nginx, lo ignora y no pasa nada.
+#
+#  El nombre empieza con un punto: en Linux eso significa "archivo oculto".
+#  Si no lo ves en tu carpeta, activá "mostrar archivos ocultos" (Ctrl+H).
+# =============================================================================
+
+# Qué archivo abrir cuando alguien entra a la carpeta sin pedir nada.
+DirectoryIndex index.php
+
+# No mostrar el listado de archivos si una carpeta no tiene index.
+# Sin esto, entrar a /assets/ le mostraría a cualquiera todos tus archivos.
+Options -Indexes
+
+# Que los textos con acentos y ñ se vean bien siempre.
+AddDefaultCharset UTF-8
+
+# Bloquear el acceso directo a la carpeta includes/.
+# Esos archivos están hechos para que los use PHP con require, no para que
+# alguien los abra desde el navegador escribiendo la dirección.
+# (No es peligroso en este proyecto porque no hay contraseñas, pero es la
+# costumbre correcta y conviene agarrarla desde el principio.)
+<IfModule mod_authz_core.c>
+    <FilesMatch "^(tabla_periodica|datos_curiosos|funciones|cabecera|pie)\.php$">
+        Require all denied
+    </FilesMatch>
+</IfModule>

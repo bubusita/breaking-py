@@ -1,0 +1,27 @@
+# Archivos que NO se suben al repositorio.
+#
+# Git guarda TODO lo que esté en la carpeta, así que hay que decirle
+# explícitamente qué ignorar: archivos que se generan solos, configuraciones
+# personales de cada computadora y — sobre todo — cualquier cosa con
+# contraseñas adentro.
+
+# Caché que genera Python al importar un módulo
+__pycache__/
+*.py[cod]
+
+# Configuraciones de editores
+.vscode/
+.idea/
+*.swp
+
+# Archivos que crean los sistemas operativos
+.DS_Store
+Thumbs.db
+
+# Configuración local de herramientas
+.claude/
+
+# Si algún día agregás contraseñas o datos de conexión, van en un archivo
+# aparte y ese archivo NUNCA se sube:
+.env
+config.local.php
