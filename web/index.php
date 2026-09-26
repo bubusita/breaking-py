@@ -93,7 +93,8 @@ require __DIR__ . '/includes/cabecera.php';
 
 <!--
     En la consola el menú eran cuatro print() y un input() que leía "1".
-    Acá son cuatro enlaces: cada uno lleva a una página distinta.
+    Acá son enlaces: cada uno lleva a una página distinta. El quinto, los
+    ejercicios, no estaba en el original: se agregó en la versión 1.5.0.
     Un enlace <a href="..."> es la forma más simple de "elegir una opción".
 -->
 <section class="menu">
@@ -119,6 +120,12 @@ require __DIR__ . '/includes/cabecera.php';
         <span class="tarjeta-num">4</span>
         <h2>Datos curiosos</h2>
         <p>Un dato sorprendente de cada uno de los 118 elementos de la tabla.</p>
+    </a>
+
+    <a class="tarjeta" href="ejercicios.php">
+        <span class="tarjeta-num">5</span>
+        <h2>Ejercicios</h2>
+        <p>Para repasar: partículas e iones, niveles de energía, metales y no metales, y propiedades periódicas.</p>
     </a>
 </section>
 

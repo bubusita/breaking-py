@@ -41,7 +41,7 @@
  *   - PARCHE sube cuando sólo se arreglan errores.
  * Todos los cambios están anotados en CHANGELOG.md.
  */
-define('BREAKING_PY_VERSION', '1.4.1');
+define('BREAKING_PY_VERSION', '1.5.0');
 
 
 /**

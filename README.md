@@ -1,14 +1,15 @@
 # Breaking Py
 
 Un programa sobre la **tabla periódica**: buscá cualquiera de los 118 elementos,
-filtralos por sus características, poné a prueba lo que sabés con un quiz y
-enterate de un dato curioso de cada uno.
+filtralos por sus características, poné a prueba lo que sabés con un quiz,
+enterate de un dato curioso de cada uno y repasá los temas con la
+sección de **ejercicios**.
 
 Empezó como un programa de consola en Python, escrito por
 **Julia López Rocchi** y **Joaquín Moyano**, y hoy es también un sitio web hecho
 con PHP, HTML y CSS.
 
-**Versión actual: 1.4.1**
+**Versión actual: 1.5.0**
 
 ---
 

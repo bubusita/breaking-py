@@ -82,6 +82,7 @@ $base = $base ?? '';
         <a href="<?= $base ?>elemento.php" class="<?= $activo === 'elemento' ? 'activo' : '' ?>">Elemento</a>
         <a href="<?= $base ?>quiz.php"     class="<?= $activo === 'quiz'     ? 'activo' : '' ?>">Quiz</a>
         <a href="<?= $base ?>curiosos.php" class="<?= $activo === 'curiosos' ? 'activo' : '' ?>">Datos curiosos</a>
+        <a href="<?= $base ?>ejercicios.php" class="<?= $activo === 'ejercicios' ? 'activo' : '' ?>">Ejercicios</a>
     </nav>
 </header>
 

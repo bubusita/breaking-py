@@ -29,11 +29,22 @@ BreakingPy/
     ├── elemento.php            opción [2] buscar     (era la función segundoOp)
     ├── quiz.php                opción [3] quiz       (era la función quiz)
     ├── curiosos.php            opción [4] curiosos   (era la función Datos)
+    ├── ejercicios.php          opción [5] ejercicios (nueva, no estaba en Python)
+    ├── particulas.php            partículas, número atómico y másico, iones
+    ├── misterioso.php            niveles de energía: el elemento misterioso
+    ├── clasificar.php            ¿metal, no metal o metaloide?
+    ├── tabla_muda.php            carácter metálico: tabla muda y ficha
+    ├── propiedades.php           propiedades periódicas
     ├── .htaccess               configuración del servidor Apache
     ├── includes/
     │   ├── tabla_periodica.php   los 118 elementos   (era tabla_periodica.py)
     │   ├── datos_curiosos.php    los 118 datos       (estaba dentro de datos.py)
     │   ├── funciones.php         funciones comunes   (era quitar_tildes y demás)
+    │   ├── quimica.php           isótopos, iones, niveles, cargas (para los ejercicios)
+    │   ├── marcador.php          el marcador de cada ejercicio
+    │   ├── correccion.php        la lista de respuestas corregidas con su porqué
+    │   ├── acciones.php          los botones de otra ronda y reiniciar marcador
+    │   ├── aviso_ronda.php       el aviso de "esas respuestas eran de otra ronda"
     │   ├── tabla.php             dibuja la tabla periódica con su forma real
     │   ├── leyenda.php           qué significa cada color
     │   ├── dialogo.php           el cuadro que se abre al tocar un elemento

@@ -14,6 +14,63 @@ Cada versión agrupa los cambios en: `Agregado`, `Cambiado`, `Corregido`,
 
 ---
 
+## [1.5.0] — 2026-09-26
+
+Una sección nueva: **Ejercicios**, para repasar los temas de tabla periódica
+de Fisicoquímica. Cada ejercicio sortea un caso nuevo **cada vez que se abre
+la pantalla** y, al corregir, explica el porqué de cada respuesta — que es lo
+que las pruebas suelen pedir justificar. Los ejercicios se nombran por tema,
+no por el número de consigna de una prueba en particular.
+
+### Agregado
+- **`ejercicios.php`**: la portada de la sección, con el marcador de cada
+  ejercicio. También está en el menú de arriba y como quinta tarjeta del
+  inicio.
+- **Partículas** (`particulas.php`): una tabla de cuatro átomos e iones para
+  completar (tipo de partícula, símbolo, Z, p, e, n, A y carga). Cada fila da
+  la especie escrita con su número másico y su carga (²³Na⁺) y un número de
+  regalo. Usa isótopos que existen de verdad. El símbolo se corrige
+  respetando mayúsculas (Co no es CO), y una carga sin signo se marca como
+  incompleta.
+- **El elemento misterioso** (`misterioso.php`): niveles ocupados, electrones
+  en el último nivel y propiedades físicas → metal o no metal, electrones,
+  período, ganar o perder, ion. Sortea del litio al calcio, que son los que se
+  resuelven con los niveles 2-8-8.
+- **¿Metal, no metal o metaloide?** (`clasificar.php`): una tabla de
+  propiedades observadas para clasificar, tildar cuáles son evidencia (el
+  estado y la reactividad nunca lo son) y opinar sobre lo que afirma "un
+  compañero".
+- **Tabla muda** (`tabla_muda.php`): se eligen tres elementos tocando una
+  tabla sin nombres ni colores, se arma la ficha y se ordenan por las cuatro
+  propiedades. Tiene cuatro sub-ejercicios, a elegir con un selector: los
+  elementos se piden por carácter metálico, por radio atómico, por
+  electronegatividad o por energía de ionización. En cada ronda se sortea qué
+  nivel (alto, intermedio, bajo) le toca a cada letra, así el orden de la
+  parte b no se puede memorizar. Una barra de pasos (A → B → C → ficha) y un
+  recuadro grande con la consigna muestran qué letra toca elegir. Si los
+  elegidos no se pueden ordenar sólo con las tendencias, la página explica por
+  qué y pide elegir otro. Como es de varios pasos, recargar conserva lo elegido; entrar
+  desde la portada de ejercicios empieza de cero.
+- **Propiedades periódicas** (`propiedades.php`): con el radio, la
+  electronegatividad, la energía de ionización y el carácter metálico (a veces
+  sólo dos, y hay que deducir las otras), ubicar la zona, clasificar y
+  justificar. Al corregir resalta la zona en la tabla periódica.
+- `includes/quimica.php` con los datos nuevos que hacían falta (isótopos, iones
+  comunes, estado a temperatura ambiente, niveles de energía) y la lógica de
+  las rondas; `includes/marcador.php`, `includes/correccion.php` e
+  `includes/aviso_ronda.php`, compartidos por los ejercicios.
+- `includes/acciones.php`: los botones «Otra ronda» (o «Saltear», si todavía
+  no se corrigió) y «Reiniciar marcador», siempre visibles en todos los
+  ejercicios. Reiniciar pide confirmación.
+
+### Seguridad
+- Cada ronda lleva un identificador en un campo oculto. Si llegan respuestas
+  de una ronda que ya cambió (otra pestaña, el botón «atrás») no se corrigen
+  contra las preguntas nuevas: se avisa y se empieza otra. Tampoco se puede
+  corregir dos veces la misma ronda.
+
+---
+
 ## [1.4.1] — 2026-07-24
 
 ### Movido

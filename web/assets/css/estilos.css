@@ -1288,3 +1288,401 @@ button:hover,
         flex: none;
     }
 }
+
+
+/* --------------------------------------------------------------------------
+   EJERCICIOS  (ejercicios.php y las cinco páginas de práctica)
+
+   Casi todo se reutiliza del quiz (.quiz-form, .quiz-resultados, .marcador).
+   Lo nuevo es la tabla para completar, la tabla muda y un par de detalles.
+   -------------------------------------------------------------------------- */
+
+/* "← Ejercicios · Punto 2 de la evaluación", arriba de cada ejercicio */
+.miga {
+    margin: 0 0 8px;
+    font-size: .88rem;
+    color: var(--texto-suave);
+}
+
+.subtitulo {
+    font-size: 1.15rem;
+    margin: 28px 0 12px;
+}
+
+/* En la portada de ejercicios, el tema reemplaza al número de la tarjeta. */
+.tarjeta-tema {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--acento);
+}
+
+.tarjeta .tarjeta-marcador {
+    margin-top: 10px;
+    font-size: .82rem;
+    color: var(--acento-2);
+}
+
+.marcador-num small {
+    font-size: 1rem;
+    color: var(--texto-suave);
+}
+
+/* La ayuda-memoria: <details> es un desplegable que el navegador abre y
+   cierra solo, sin JavaScript. Arranca cerrado, para practicar sin mirar. */
+.ayuda {
+    background: var(--fondo-2);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin: 0 0 20px;
+    font-size: .92rem;
+}
+
+.ayuda summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--acento-2);
+}
+
+.ayuda ul {
+    margin: 10px 0 4px;
+    padding-left: 20px;
+}
+
+/* El enunciado de los ejercicios de "un elemento desconocido presenta..." */
+.caja-pistas {
+    background: var(--fondo-2);
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--acento);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 0 0 20px;
+}
+
+.caja-pistas p {
+    margin: 0 0 6px;
+}
+
+.caja-pistas ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.quiz-nota {
+    margin: 0;
+    font-size: .88rem;
+    color: var(--texto-suave);
+}
+
+/* La explicación del porqué, debajo de cada respuesta corregida. */
+.res-explica {
+    display: block;
+    margin-top: 6px;
+    font-size: .9rem;
+    color: var(--texto);
+    opacity: .85;
+}
+
+.aviso-ok {
+    border-left-color: var(--ok);
+}
+
+/* ²³Na⁺ : los superíndices no tienen que agrandar el renglón. */
+.notacion {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.notacion sup {
+    font-size: .68em;
+    line-height: 0;
+}
+
+/* ── LA TABLA PARA COMPLETAR ─────────────────────────────────────────────── */
+.ej-tabla {
+    width: 100%;
+    border-collapse: collapse;   /* los bordes de las celdas vecinas se juntan */
+    background: var(--fondo-2);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    font-size: .95rem;
+}
+
+.ej-tabla th,
+.ej-tabla td {
+    border: 1px solid var(--borde);
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.ej-tabla thead th {
+    font-size: .8rem;
+    color: var(--texto-suave);
+    font-weight: 600;
+}
+
+.ej-tabla tbody th {
+    text-align: left;
+    font-weight: 600;
+}
+
+/* Adentro de la tabla los campos son angostos. El min-width general (180px)
+   haría que la tabla midiera más de un metro. */
+.ej-tabla input[type="text"],
+.ej-tabla select {
+    min-width: 0;
+    width: 100%;
+    padding: 7px 8px;
+    font-size: .95rem;
+}
+
+.ej-tabla input[type="text"] {
+    width: 4.5em;
+    text-align: center;
+}
+
+/* Los datos que vienen de regalo van en azul, para no confundirlos con los
+   aciertos (que son verdes). */
+.ej-tabla td.dado {
+    font-weight: 700;
+    color: var(--acento-2);
+}
+
+.nota-tabla {
+    margin: 6px 0 0;
+    font-size: .85rem;
+    color: var(--texto-suave);
+}
+
+.nota-tabla .dado {
+    color: var(--acento-2);
+    font-weight: 700;
+}
+
+
+/* Los casilleros corregidos. Además del color, lo tachado y lo en negrita
+   dicen qué estaba mal y qué era lo correcto: el color nunca va solo. */
+.casillero-ok {
+    background: rgba(52, 211, 153, .12);
+}
+
+.casillero-mal {
+    background: rgba(248, 113, 113, .12);
+}
+
+.casillero-mal s {
+    color: var(--mal);
+    margin-right: 4px;
+}
+
+.casillero-mal small {
+    display: block;
+    color: var(--texto-suave);
+}
+
+.ej-propiedades td:last-child,
+.ej-propiedades th:last-child {
+    width: 9em;
+}
+
+.ej-propiedades input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--acento);
+}
+
+.ej-ficha select {
+    min-width: 7.5em;
+}
+
+/* ── LA TABLA MUDA ───────────────────────────────────────────────────────── */
+/* Usa la misma cuadrícula que la tabla periódica (.tabla-periodica), pero los
+   casilleros van vacíos y sin color: esa es la gracia de una tabla muda. */
+.celda-muda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    padding: 0;
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    background: var(--fondo-2);
+    color: var(--texto);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+/* Los botones de la tabla muda no llevan el degradado de los botones comunes. */
+button.celda-muda {
+    background: var(--fondo-2);
+    cursor: pointer;
+    transition: border-color .12s, background .12s;
+}
+
+button.celda-muda:hover,
+button.celda-muda:focus-visible {
+    filter: none;
+    border-color: var(--acento);
+    background: var(--fondo-3);
+    outline: none;
+}
+
+.celda-muda.elegida {
+    border: 2px solid var(--acento);
+    background: rgba(110, 231, 183, .15);
+    color: var(--acento);
+}
+
+.celda-muda small {
+    font-size: .65rem;
+    font-weight: 600;
+    color: var(--texto);
+}
+
+/* ── LOS PASOS DE LA TABLA MUDA ──────────────────────────────────────────── */
+/* Tres señales distintas para cada estado, así no depende sólo del color:
+   hecho = ✓ y relleno; actual = borde grueso, resplandor y letra grande;
+   pendiente = apagado. */
+.pasos {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0 0 16px;
+}
+
+.paso {
+    flex: 1 1 150px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    background: var(--fondo-2);
+}
+
+.paso-letra {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    font-weight: 800;
+}
+
+.paso-texto small {
+    display: block;
+    font-size: .78rem;
+    color: var(--texto-suave);
+    line-height: 1.3;
+}
+
+.paso-hecho .paso-letra {
+    background: var(--ok);
+    border-color: var(--ok);
+    color: #06231b;
+}
+
+.paso-actual {
+    border: 2px solid var(--acento);
+    box-shadow: 0 0 0 4px rgba(110, 231, 183, .15);
+}
+
+.paso-actual .paso-letra {
+    color: var(--acento);
+}
+
+.paso-pendiente {
+    opacity: .45;
+}
+
+/* La consigna del paso actual: grande, con la letra en un círculo. */
+.paso-ahora {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    margin: 0 0 14px;
+    border: 2px solid var(--acento);
+    border-radius: var(--radio);
+    background: rgba(110, 231, 183, .08);
+    font-size: 1.05rem;
+}
+
+.paso-ahora span {
+    display: block;
+}
+
+.paso-ahora-letra {
+    display: grid !important;
+    place-items: center;
+    flex: none;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--acento), var(--acento-2));
+    color: #06231b;
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+/* Recién se pasó de letra: un destello, para que se note el cambio. */
+.paso-ahora.recien {
+    animation: destello 1.2s ease-out 2;
+}
+
+@keyframes destello {
+    0%   { box-shadow: 0 0 0 0 rgba(110, 231, 183, .6); }
+    100% { box-shadow: 0 0 0 18px rgba(110, 231, 183, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .paso-ahora.recien {
+        animation: none;
+    }
+}
+
+/* ── EL SELECTOR DE SUB-EJERCICIO (tabla muda) ───────────────────────────── */
+.selector-modo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 18px;
+}
+
+.selector-titulo {
+    font-size: .85rem;
+    color: var(--texto-suave);
+    margin-right: 4px;
+}
+
+.selector-modo a {
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--borde);
+    background: var(--fondo-2);
+    color: var(--texto-suave);
+    font-size: .9rem;
+}
+
+.selector-modo a:hover {
+    color: var(--texto);
+    border-color: var(--acento);
+    text-decoration: none;
+}
+
+.selector-modo a.activa {
+    background: var(--acento);
+    border-color: var(--acento);
+    color: #06231b;
+    font-weight: 700;
+}
