@@ -14,6 +14,53 @@ Cada versión agrupa los cambios en: `Agregado`, `Cambiado`, `Corregido`,
 
 ---
 
+## [1.5.1] — 2026-09-26
+
+Revisión de seguridad de todo el sitio, que está publicado en
+lopez-rocchi.com.ar/ProyectosJ/BreakingPy/ y ya recibe visitas de bots.
+
+### Seguridad
+- **Vuelve la sesión con cookie propia** (`includes/sesion.php`). Con
+  `session_start()` a secas, Breaking Py usaba la cookie `PHPSESSID` con
+  `path=/`, la misma que el resto del dominio, que tiene login: entrar a
+  Breaking Py podía cerrarle la sesión a quien estuviera logueado en el panel.
+  Se había arreglado el 8/9/2026 en la copia publicada, pero el arreglo no
+  estaba en este repositorio y al subir la 1.5.0 se perdió. Ahora la cookie se
+  llama `breakingpy_sess`, está acotada a la carpeta de la app (la ruta se
+  calcula sola: anda igual en el hosting y con `php -S`) y lleva `HttpOnly`,
+  `SameSite=Lax`, `Secure` si hay HTTPS y modo estricto.
+- **Ninguna entrada del usuario puede tirar abajo una página.** Mandando un
+  array donde se espera un texto (`elemento.php?nombre[]=x`) había ocho
+  formas de provocar un error fatal (500) en elemento, curiosos, el visor del
+  código, filtrar, el quiz y la tabla muda. Todo lo que llega de `$_GET` y
+  `$_POST` pasa ahora por `texto_recibido()`.
+- **Los errores ya no se muestran en la página** (`display_errors` apagado en
+  `funciones.php`): un mensaje de error revela la carpeta del sitio en el
+  servidor.
+- **La carpeta `includes/` se bloquea entera** con su propio `.htaccess`. Antes
+  se bloqueaban cinco archivos por nombre, y los nuevos habían quedado
+  expuestos. Además cada plantilla corta si se la abre sola, por si el servidor
+  no es Apache.
+- **Cabeceras de seguridad** en todas las páginas: Content-Security-Policy
+  (sólo scripts del propio sitio y de Google Analytics), `nosniff`,
+  `X-Frame-Options: DENY` y `Referrer-Policy`. Para que la CSP no rompa nada, no
+  queda JavaScript escrito adentro del HTML: la confirmación de «Reiniciar
+  marcador» pasó a `assets/js/confirmar.js`.
+- **El sitio ya no anuncia la versión exacta de PHP**, ni en el pie de página
+  ni en la cabecera `X-Powered-By`.
+- **El `.htaccess` de la raíz bloquea** archivos que empiezan con punto, copias
+  de respaldo y temporales de editores (`~`, `.bak`, `.swp`...) y los `.md`.
+- En `filtrar.php`, el valor de un filtro se corta a 20 letras antes de
+  guardarlo en la sesión.
+
+### Corregido
+- **Vuelve Google Analytics** (se había agregado el 8/9/2026 en la copia
+  publicada y se perdió con la 1.5.0). Ahora sólo se carga en el dominio
+  publicado, y su configuración está en `assets/js/analytics.js` para que la
+  CSP lo permita.
+
+---
+
 ## [1.5.0] — 2026-09-26
 
 Una sección nueva: **Ejercicios**, para repasar los temas de tabla periódica

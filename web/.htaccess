@@ -19,13 +19,15 @@ Options -Indexes
 # Que los textos con acentos y ñ se vean bien siempre.
 AddDefaultCharset UTF-8
 
-# Bloquear el acceso directo a la carpeta includes/.
-# Esos archivos están hechos para que los use PHP con require, no para que
-# alguien los abra desde el navegador escribiendo la dirección.
-# (No es peligroso en este proyecto porque no hay contraseñas, pero es la
-# costumbre correcta y conviene agarrarla desde el principio.)
+# La carpeta includes/ se bloquea entera con su propio .htaccess.
+
+# Archivos que nunca tienen que poder bajarse, en ninguna carpeta del sitio:
+#   · los que empiezan con punto (.git, .env, .htaccess...),
+#   · copias de respaldo y archivos temporales de los editores
+#     (index.php~, .swp, .bak...), que mostrarían el código fuente como texto,
+#   · la documentación (.md), que describe cómo está armado el sitio.
 <IfModule mod_authz_core.c>
-    <FilesMatch "^(tabla_periodica|datos_curiosos|funciones|cabecera|pie)\.php$">
+    <FilesMatch "(^\.|~$|\.(bak|old|orig|save|swp|swo|tmp|log|sql|ini|env|md|dist)$)">
         Require all denied
     </FilesMatch>
 </IfModule>

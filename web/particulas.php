@@ -23,7 +23,9 @@
  * =============================================================================
  */
 
-session_start();
+// La sesión se abre en includes/sesion.php, que le da nombre de cookie propio
+// para no pisar la del resto del sitio (que sí tiene login). Ahí está el detalle.
+require_once __DIR__ . '/includes/sesion.php';
 
 require_once __DIR__ . '/includes/quimica.php';
 $elementos = require __DIR__ . '/includes/tabla_periodica.php';
@@ -229,7 +231,7 @@ if (ronda_contestada($ejercicio, 'resultados')) {
 
             // El (string) cubre el caso de que alguien mande un array en vez
             // de un texto editando el formulario.
-            $respuesta = (string) ($_POST['r'][$i][$campo] ?? '');
+            $respuesta = texto_recibido($_POST['r'][$i][$campo] ?? '');
             $r = corregir_casillero($campo, $respuesta, $valores[$campo]);
             $r['tuya'] = trim($respuesta);
 

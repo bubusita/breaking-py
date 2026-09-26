@@ -9,7 +9,7 @@ Empezó como un programa de consola en Python, escrito por
 **Julia López Rocchi** y **Joaquín Moyano**, y hoy es también un sitio web hecho
 con PHP, HTML y CSS.
 
-**Versión actual: 1.5.0**
+**Versión actual: 1.5.1**
 
 ---
 

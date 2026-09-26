@@ -26,7 +26,9 @@
  * =============================================================================
  */
 
-session_start();
+// La sesión se abre en includes/sesion.php, que le da nombre de cookie propio
+// para no pisar la del resto del sitio (que sí tiene login). Ahí está el detalle.
+require_once __DIR__ . '/includes/sesion.php';
 
 require_once __DIR__ . '/includes/quimica.php';
 $elementos = require __DIR__ . '/includes/tabla_periodica.php';
@@ -190,7 +192,7 @@ if (ronda_contestada($ejercicio, 'aciertos')) {
     $perfil = $perfiles[$caso['tipo']];
     [$tProp, $tDir] = $caso['tendencia'];
 
-    $r = fn(string $campo) => trim((string) ($_POST[$campo] ?? ''));
+    $r = fn(string $campo) => trim(texto_recibido($_POST[$campo] ?? ''));
 
     $tuyas    = [];
     $aciertos = [];

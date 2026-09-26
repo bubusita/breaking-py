@@ -47,7 +47,7 @@ $datosCuriosos = datos_curiosos($elementos);
  * array_rand() devuelve una CLAVE al azar de un array. Es el equivalente de
  * random.choice(list(elementos.keys())) que usabas en el quiz de Python.
  */
-$busqueda = trim($_GET['nombre'] ?? '');
+$busqueda = trim(texto_recibido($_GET['nombre'] ?? ''));
 
 if (isset($_GET['azar'])) {
     $claveAzar = array_rand($elementos);

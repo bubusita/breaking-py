@@ -526,7 +526,7 @@ function ronda_contestada(string $ejercicio, string $claveCorreccion): bool
     return $_SERVER['REQUEST_METHOD'] === 'POST'
         && isset($_SESSION[$ejercicio]['id'])
         && !isset($_SESSION[$ejercicio][$claveCorreccion])   // no corregir dos veces
-        && hash_equals($_SESSION[$ejercicio]['id'], (string) ($_POST['ronda'] ?? ''));
+        && hash_equals($_SESSION[$ejercicio]['id'], texto_recibido($_POST['ronda'] ?? ''));
 }
 
 /**

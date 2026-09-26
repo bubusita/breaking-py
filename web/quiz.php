@@ -41,7 +41,9 @@
  * =============================================================================
  */
 
-session_start();
+// La sesión se abre en includes/sesion.php, que le da nombre de cookie propio
+// para no pisar la del resto del sitio (que sí tiene login). Ahí está el detalle.
+require_once __DIR__ . '/includes/sesion.php';
 
 require_once __DIR__ . '/includes/funciones.php';
 $elementos = require __DIR__ . '/includes/tabla_periodica.php';
@@ -122,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['quiz_clave'])) {
         // llaman  respuestas[NumeroAtomico],  respuestas[Simbolo], etc.
         // PHP arma solo el array a partir de esos corchetes: un truco muy útil
         // para formularios con muchos campos parecidos.
-        $respuesta = trim($_POST['respuestas'][$campo] ?? '');
+        $respuesta = trim(texto_recibido($_POST['respuestas'][$campo] ?? ''));
 
         $resultado = corregir($campo, $respuesta, $datos);
         $resultado['pregunta'] = $textoPregunta;

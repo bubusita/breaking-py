@@ -1,4 +1,5 @@
 <?php
+defined('BREAKING_PY_VERSION') || exit;   // abierto directo desde el navegador: no hace nada (ver includes/.htaccess)
 /**
  * =============================================================================
  *  leyenda.php  —  QUÉ SIGNIFICA CADA COLOR

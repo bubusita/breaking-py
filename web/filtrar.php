@@ -39,10 +39,11 @@
  * =============================================================================
  */
 
-// session_start() DEBE ir antes de que se imprima nada (ni un espacio, ni un
-// salto de línea), porque manda una cookie y las cookies viajan en la
-// cabecera del pedido, o sea, antes que el HTML.
-session_start();
+// La sesión se abre en includes/sesion.php, que le da nombre de cookie propio
+// para no pisar la del resto del sitio (que sí tiene login). Ahí está el detalle.
+// Sigue teniendo que ir antes de imprimir nada: manda una cookie, y las
+// cookies viajan en la cabecera, o sea, antes que el HTML.
+require_once __DIR__ . '/includes/sesion.php';
 
 require_once __DIR__ . '/includes/funciones.php';
 $elementos = require __DIR__ . '/includes/tabla_periodica.php';
@@ -103,8 +104,12 @@ $_SESSION['filtros'] = $_SESSION['filtros'] ?? [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $cual  = $_POST['caracteristica'] ?? '';
-    $valor = trim($_POST['valor'] ?? '');
+    // texto_recibido(): si alguien manda un array en vez de un texto, se toma
+    // como vacío (ver includes/funciones.php). mb_substr() corta el valor a
+    // 20 letras: ningún filtro legítimo es más largo, y así nadie puede
+    // guardar un texto enorme en la sesión.
+    $cual  = texto_recibido($_POST['caracteristica'] ?? '');
+    $valor = mb_substr(trim(texto_recibido($_POST['valor'] ?? '')), 0, 20);
 
     // ¡NUNCA confiar en lo que llega del navegador! Cualquiera puede mandar
     // cualquier cosa, así que verificamos que la característica exista de
@@ -131,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Quitar un filtro suelto:  filtrar.php?quitar=grupo
 if (isset($_GET['quitar'])) {
-    unset($_SESSION['filtros'][$_GET['quitar']]); // unset() = del de Python
+    unset($_SESSION['filtros'][texto_recibido($_GET['quitar'])]); // unset() = del de Python
     header('Location: filtrar.php');
     exit;
 }

@@ -1,4 +1,5 @@
 <?php
+defined('BREAKING_PY_VERSION') || exit;   // abierto directo desde el navegador: no hace nada (ver includes/.htaccess)
 /**
  * =============================================================================
  *  dialogo.php  —  EL CUADRO QUE SE ABRE AL HACER CLIC EN UN ELEMENTO

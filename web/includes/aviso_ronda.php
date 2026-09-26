@@ -1,4 +1,5 @@
 <?php
+defined('BREAKING_PY_VERSION') || exit;   // abierto directo desde el navegador: no hace nada (ver includes/.htaccess)
 /**
  * El aviso de "esas respuestas eran de otra ronda". Lo incluyen los
  * ejercicios después del marcador; usa la misma variable $ejercicio.

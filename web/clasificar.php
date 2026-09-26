@@ -25,7 +25,9 @@
  * =============================================================================
  */
 
-session_start();
+// La sesión se abre en includes/sesion.php, que le da nombre de cookie propio
+// para no pisar la del resto del sitio (que sí tiene login). Ahí está el detalle.
+require_once __DIR__ . '/includes/sesion.php';
 
 require_once __DIR__ . '/includes/quimica.php';
 
@@ -193,7 +195,7 @@ if (ronda_contestada($ejercicio, 'aciertos')) {
     [$ionOk, $signoOk] = ion_esperado($h['tipo']);
     $afirmacion = afirmaciones()[$h['afirmacion']];
 
-    $r = fn(string $campo) => trim((string) ($_POST[$campo] ?? ''));
+    $r = fn(string $campo) => trim(texto_recibido($_POST[$campo] ?? ''));
 
     // Los casilleros tildados llegan como una lista: evidencias[] = 0, 2, 5...
     // Si no tildó ninguno, $_POST['evidencias'] ni siquiera existe.

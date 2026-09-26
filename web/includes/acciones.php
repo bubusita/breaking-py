@@ -1,4 +1,5 @@
 <?php
+defined('BREAKING_PY_VERSION') || exit;   // abierto directo desde el navegador: no hace nada (ver includes/.htaccess)
 /**
  * =============================================================================
  *  acciones.php  —  LOS BOTONES DE ABAJO DE CADA EJERCICIO
@@ -13,9 +14,8 @@
  *      $corregido  si ya se corrigió (cambia qué botón se destaca)
  *      $urlOtra    (opcional) adónde lleva "otra ronda"; por defecto, $pagina
  *
- *  Reiniciar pide confirmación con confirm(), una ventanita del navegador
- *  que devuelve true o false: si la persona toca "Cancelar", el  return false
- *  frena el enlace y no se borra nada. Es JavaScript de una sola línea.
+ *  Reiniciar pide confirmación: el atributo data-confirmar lo lee
+ *  assets/js/confirmar.js, que muestra la pregunta antes de seguir el enlace.
  * =============================================================================
  */
 
@@ -28,5 +28,6 @@ $urlOtra = $urlOtra ?? $pagina;
         <a class="boton-secundario" href="<?= e($urlOtra) ?>">Saltear: otra ronda</a>
     <?php endif; ?>
     <a class="boton-secundario" href="<?= e($pagina) ?>?reiniciar=1"
-       onclick="return confirm('¿Poner el marcador de este ejercicio en cero?');">Reiniciar marcador</a>
+       data-confirmar="¿Poner el marcador de este ejercicio en cero?">Reiniciar marcador</a>
 </p>
+<script src="assets/js/confirmar.js" defer></script>

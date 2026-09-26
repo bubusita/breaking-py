@@ -41,7 +41,94 @@
  *   - PARCHE sube cuando sólo se arreglan errores.
  * Todos los cambios están anotados en CHANGELOG.md.
  */
-define('BREAKING_PY_VERSION', '1.5.0');
+define('BREAKING_PY_VERSION', '1.5.1');
+
+
+/**
+ * Los errores de PHP NO se muestran en la página: van al log del servidor.
+ *
+ * Un mensaje de error en pantalla le cuenta a cualquiera cosas que no tiene
+ * por qué saber, como la carpeta exacta donde está el sitio dentro del
+ * servidor. Los bots que escanean sitios provocan errores a propósito para
+ * leer esos mensajes. Para ver los errores mientras programás, mirá la
+ * terminal donde corre  php -S  (ahí salen igual), o poné temporalmente
+ * ini_set('display_errors', '1');  DESPUÉS del require de este archivo.
+ */
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
+
+/**
+ * El identificador de Google Analytics del sitio publicado. Sólo se usa en
+ * el dominio de verdad (ver cabecera.php): probando en la computadora no se
+ * mide nada.
+ */
+define('GOOGLE_ANALYTICS_ID', 'G-BKCFQDHG46');
+define('DOMINIO_PUBLICADO', 'lopez-rocchi.com.ar');
+
+
+/**
+ * Lo que mandó el usuario, garantizado como TEXTO.
+ *
+ * En un formulario, cualquiera puede cambiar  name="nombre"  por
+ * name="nombre[]"  y entonces PHP recibe un ARRAY en vez de un texto. Si
+ * después se le pasa ese array a trim() o se lo usa como clave, PHP 8 corta
+ * todo con un error fatal (una página "500"). Los bots que escanean sitios
+ * prueban exactamente eso.
+ *
+ * Por eso todo lo que llega de $_GET y $_POST pasa por acá: si es texto se
+ * devuelve tal cual, y si es cualquier otra cosa, se trata como vacío.
+ *
+ *     texto_recibido($_GET['nombre'] ?? '')
+ */
+function texto_recibido(mixed $valor): string
+{
+    return is_string($valor) ? $valor : '';
+}
+
+
+/**
+ * Las cabeceras de seguridad: instrucciones que el servidor le da al
+ * navegador junto con la página. Las manda cabecera.php, antes del HTML.
+ *
+ *   Content-Security-Policy  la más importante: una lista de DE DÓNDE se
+ *       pueden cargar scripts, estilos, imágenes, etc. Si alguna vez se
+ *       colara un <script> ajeno en la página (un XSS), el navegador se
+ *       negaría a ejecutarlo porque no viene de un lugar permitido. Por eso
+ *       el sitio no tiene JavaScript escrito adentro del HTML: todo vive en
+ *       assets/js/. Se permite Google (Analytics) y nada más de afuera.
+ *       'unsafe-inline' en los estilos es por los  style="grid-row: 3"  de
+ *       la tabla: un estilo no puede ejecutar código.
+ *   X-Content-Type-Options   que el navegador no "adivine" el tipo de un
+ *       archivo: un .txt se muestra como texto aunque parezca un script.
+ *   X-Frame-Options          que ningún otro sitio pueda meter estas páginas
+ *       adentro de un marco invisible para engañar clics.
+ *   Referrer-Policy          cuánto se le cuenta a otro sitio de dónde viene
+ *       el visitante: sólo el dominio, nunca la dirección completa.
+ *
+ * header_remove('X-Powered-By') borra la cabecera en la que PHP anuncia su
+ * versión exacta: le sirve a un atacante para buscar fallas conocidas.
+ */
+function enviar_cabeceras_de_seguridad(): void
+{
+    if (headers_sent()) {
+        return;
+    }
+
+    $google = 'https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com';
+
+    header('Content-Security-Policy: '
+        . "default-src 'self'; "
+        . "script-src 'self' https://www.googletagmanager.com; "
+        . "style-src 'self' 'unsafe-inline'; "
+        . "img-src 'self' data: {$google}; "
+        . "connect-src 'self' {$google}; "
+        . "form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'");
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: DENY');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header_remove('X-Powered-By');
+}
 
 
 /**

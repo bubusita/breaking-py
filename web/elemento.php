@@ -49,7 +49,7 @@ $elementos = require __DIR__ . '/includes/tabla_periodica.php';
  * Usamos ?? '' por si todavía no buscó nada: sin eso PHP avisaría que la
  * clave 'nombre' no existe.
  */
-$busqueda = trim($_GET['nombre'] ?? '');
+$busqueda = trim(texto_recibido($_GET['nombre'] ?? ''));
 
 $datos = null;
 $hayError = false;

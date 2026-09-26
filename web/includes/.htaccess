@@ -1,0 +1,25 @@
+# =============================================================================
+#  includes/.htaccess  —  NADIE ENTRA A ESTA CARPETA DESDE EL NAVEGADOR
+# =============================================================================
+#
+#  Los archivos de acá son pedazos de página: los usa PHP con require, no se
+#  abren solos. Abiertos directo desde el navegador no sirven para nada, y
+#  alguno podría fallar y mostrar información del servidor. Por eso se
+#  bloquea la carpeta ENTERA, y no archivo por archivo: antes había una lista
+#  con cinco nombres, y cuando se agregaron archivos nuevos quedaron afuera.
+#  Con la carpeta entera, lo que se agregue mañana ya nace protegido.
+#
+#  Las dos formas son por compatibilidad: "Require all denied" es la de
+#  Apache 2.4 (casi todos los hostings) y "Deny from all", la de Apache 2.2.
+#
+#  Y por si el servidor no fuera Apache (Nginx ignora este archivo), cada
+#  plantilla empieza con una línea que corta si se la abre sola.
+# =============================================================================
+
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

@@ -70,7 +70,7 @@ $archivos = [
  * así que si no pidieron nada (o pidieron algo que no está en la lista) se
  * muestra el primero y listo. Nunca se usa $_GET para armar una ruta.
  */
-$pedido = $_GET['archivo'] ?? '';
+$pedido = texto_recibido($_GET['archivo'] ?? '');
 $elegido = isset($archivos[$pedido]) ? $pedido : array_key_first($archivos);
 
 // La ruta se arma con __DIR__ (la carpeta de ESTE archivo) + un nombre que

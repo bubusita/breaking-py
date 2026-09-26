@@ -1,4 +1,5 @@
 <?php
+defined('BREAKING_PY_VERSION') || exit;   // abierto directo desde el navegador: no hace nada (ver includes/.htaccess)
 /**
  * =============================================================================
  *  tabla.php  —  DIBUJA LA TABLA PERIÓDICA CON LA FORMA DE VERDAD

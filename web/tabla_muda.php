@@ -57,7 +57,9 @@
  * =============================================================================
  */
 
-session_start();
+// La sesión se abre en includes/sesion.php, que le da nombre de cookie propio
+// para no pisar la del resto del sitio (que sí tiene login). Ahí está el detalle.
+require_once __DIR__ . '/includes/sesion.php';
 
 require_once __DIR__ . '/includes/quimica.php';
 $elementos = require __DIR__ . '/includes/tabla_periodica.php';
@@ -246,8 +248,9 @@ $modoActual = $_SESSION['tabla_muda']['modo'] ?? 'cm';
 
 // ?modo=radio → cambia de sub-ejercicio y empieza una ronda nueva. Sólo se
 // aceptan los modos que existen: lo que llega por la URL no se usa a ciegas.
-if (isset($_GET['modo']) && array_key_exists($_GET['modo'], $modos)) {
-    $_SESSION['tabla_muda'] = ronda_tabla_muda($_GET['modo']);
+$modoPedido = texto_recibido($_GET['modo'] ?? '');
+if (array_key_exists($modoPedido, $modos)) {
+    $_SESSION['tabla_muda'] = ronda_tabla_muda($modoPedido);
     header('Location: tabla_muda.php');
     exit;
 }
@@ -319,7 +322,7 @@ foreach (array_keys($pedidos) as $letra) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['z']) && $letraActual !== null) {
 
-    $clave = clave_por_z($elementos, (int) $_POST['z']);
+    $clave = clave_por_z($elementos, (int) texto_recibido($_POST['z']));
     $nivel = $pedidos[$letraActual]['nivel'];
 
     if ($clave === null) {
@@ -373,14 +376,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ficha']) && $letraAct
         $esperada = ficha_esperada($tm['niveles'][$letra], $elementos[$clave]);
 
         foreach (array_keys($filasFicha) as $fila) {
-            $valor = trim((string) ($_POST['ficha'][$letra][$fila] ?? ''));
+            $valor = trim(texto_recibido($_POST['ficha'][$letra][$fila] ?? ''));
             $tuyas['ficha'][$letra][$fila]    = $valor;
             $aciertos['ficha'][$letra][$fila] = $valor === $esperada[$fila];
         }
     }
 
     foreach ($ordenCorrecto as $prop => $correcto) {
-        $valor = trim((string) ($_POST['orden'][$prop] ?? ''));
+        $valor = trim(texto_recibido($_POST['orden'][$prop] ?? ''));
         $tuyas['orden'][$prop]    = $valor;
         $aciertos['orden'][$prop] = $valor === $correcto;
     }

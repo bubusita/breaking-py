@@ -36,7 +36,8 @@ BreakingPy/
     ├── tabla_muda.php            carácter metálico: tabla muda y ficha
     ├── propiedades.php           propiedades periódicas
     ├── .htaccess               configuración del servidor Apache
-    ├── includes/
+    ├── includes/               (bloqueada desde el navegador por su .htaccess)
+    │   ├── sesion.php            la sesión con cookie propia (no pisa la del sitio)
     │   ├── tabla_periodica.php   los 118 elementos   (era tabla_periodica.py)
     │   ├── datos_curiosos.php    los 118 datos       (estaba dentro de datos.py)
     │   ├── funciones.php         funciones comunes   (era quitar_tildes y demás)
@@ -58,7 +59,9 @@ BreakingPy/
     │   └── .htaccess             protecciones de esta carpeta
     └── assets/
         ├── css/estilos.css       todos los colores y tamaños
-        └── js/dialogo.js         abre el cuadro al tocar un elemento
+        ├── js/dialogo.js         abre el cuadro al tocar un elemento
+        ├── js/confirmar.js       pide confirmación antes de reiniciar un marcador
+        └── js/analytics.js       Google Analytics (sólo en el sitio publicado)
 ```
 
 Los `.py` originales **no se tocaron**: están tal cual en
@@ -141,8 +144,11 @@ git push origin v1.2.0
 ```
 
 **Si algo falla**, lo primero que hay que mirar siempre es el log de errores del
-hosting. Y para ver los errores en pantalla mientras probás, podés poner estas
-dos líneas al principio de `index.php` (¡y sacarlas antes de publicar!):
+hosting. Mientras probás con `php -S`, los errores salen en la terminal. Si
+querés verlos en la página, poné estas dos líneas en la página que falla,
+**después** del `require` de `includes/funciones.php` (que los apaga a
+propósito: un error en pantalla le muestra a cualquiera en qué carpeta del
+servidor está el sitio). ¡Y sacalas antes de publicar!
 
 ```php
 ini_set('display_errors', '1');

@@ -1,3 +1,4 @@
+<?php defined('BREAKING_PY_VERSION') || exit;   // abierto directo desde el navegador: no hace nada (ver includes/.htaccess) ?>
 </main>
 
 <footer class="pie">
@@ -16,7 +17,7 @@
         <a href="<?= $base ?>python_original/">Ver el código original →</a>
     </p>
     <p class="pie-mini">
-        Versión <?= BREAKING_PY_VERSION ?> · hecho con PHP <?= PHP_VERSION ?>
+        Versión <?= BREAKING_PY_VERSION ?> · hecho con PHP
     </p>
 </footer>
 
@@ -32,7 +33,9 @@
  *  Eso está bien: PHP siempre arranca en modo HTML.
  *
  *  BREAKING_PY_VERSION es una CONSTANTE que definimos nosotros en
- *  includes/funciones.php. PHP_VERSION es una que trae el propio PHP.
+ *  includes/funciones.php. Antes al lado iba PHP_VERSION, la versión exacta
+ *  de PHP del servidor: se sacó porque le sirve a un atacante para buscar
+ *  fallas conocidas de esa versión, y a quien visita no le aporta nada.
  *  Las constantes se parecen a las variables pero no llevan  $  adelante y no
  *  se pueden cambiar una vez definidas: son para los datos que no varían
  *  durante el programa, como el número de versión.

@@ -1,4 +1,5 @@
 <?php
+defined('BREAKING_PY_VERSION') || exit;   // abierto directo desde el navegador: no hace nada (ver includes/.htaccess)
 /**
  * =============================================================================
  *  cabecera.php  —  LA PARTE DE ARRIBA QUE SE REPITE EN TODAS LAS PÁGINAS
@@ -44,6 +45,15 @@ $activo = $activo ?? '';
  */
 $base = $base ?? '';
 
+// Las instrucciones de seguridad para el navegador (ver funciones.php).
+// Tienen que salir ANTES que el HTML, como las cookies.
+enviar_cabeceras_de_seguridad();
+
+// ¿Estamos en el sitio publicado? Google Analytics sólo mide ahí.
+// str_ends_with() pregunta si un texto termina en otro (el .endswith() de
+// Python): así vale tanto lopez-rocchi.com.ar como www.lopez-rocchi.com.ar.
+$enProduccion = str_ends_with($_SERVER['SERVER_NAME'] ?? '', DOMINIO_PUBLICADO);
+
 /**
  * PHP arranca en "modo HTML" y sólo entra en modo código entre <?php y ? >.
  * Abajo cerramos el bloque de código con  ? >  y escribimos HTML directo.
@@ -58,6 +68,18 @@ $base = $base ?? '';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= e($titulo) ?> · Breaking Py</title>
     <link rel="stylesheet" href="<?= $base ?>assets/css/estilos.css">
+
+    <?php if ($enProduccion): ?>
+        <!--
+            Google Analytics (se agregó el 8/9/2026). La medición es anónima:
+            no recibe ningún dato de quien navega. El pedacito de
+            configuración está en assets/js/analytics.js y no escrito acá,
+            porque la política de seguridad (CSP) no deja ejecutar
+            JavaScript escrito adentro del HTML.
+        -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?= e(GOOGLE_ANALYTICS_ID) ?>"></script>
+        <script src="<?= $base ?>assets/js/analytics.js" data-id="<?= e(GOOGLE_ANALYTICS_ID) ?>"></script>
+    <?php endif; ?>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚗️</text></svg>">
 </head>
 <body>
